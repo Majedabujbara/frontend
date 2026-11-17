@@ -1,34 +1,36 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    alert("واجهة الدخول جاهزة—سيتم ربطها بالـ API لاحقًا.");
+    alert("Login form is ready — it will be connected to the API later.");
   }
 
   function handleRegisterClick() {
-    alert("صفحة التسجيل سيتم ربطها لاحقًا.");
+    navigate("/register");
   }
 
   return (
-      <main className="login-page" dir="rtl">
+      <main className="login-page">
         <section className="login-card">
           <div className="brand">
             <div className="brand-icon">☕</div>
-            <span>لقمتنا</span>
+            <span>Luqmatna</span>
           </div>
 
           <div className="welcome">
-            <span className="eyebrow">أهلًا وسهلًا</span>
-            <h1>سجّل دخولك</h1>
-            <p>ادخل إلى حسابك واطلب وجبتك المفضلة.</p>
+            <span className="eyebrow">Welcome back</span>
+            <h1>Sign in</h1>
+            <p>Sign in to your account and order your favorite meal.</p>
           </div>
 
           <form onSubmit={handleSubmit}>
-            <label htmlFor="email">البريد الإلكتروني</label>
+            <label htmlFor="email">Email</label>
             <input
                 id="email"
                 type="email"
@@ -37,12 +39,12 @@ export default function Login() {
                 required
             />
 
-            <label htmlFor="password">كلمة المرور</label>
+            <label htmlFor="password">Password</label>
             <div className="password-wrap">
               <input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="أدخل كلمة المرور"
+                  placeholder="Enter your password"
                   autoComplete="current-password"
                   required
               />
@@ -52,32 +54,32 @@ export default function Login() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "إخفاء" : "إظهار"}
+                {showPassword ? "Hide" : "Show"}
               </button>
             </div>
 
             <div className="form-options">
               <label className="remember">
                 <input type="checkbox" />
-                تذكرني
+                Remember me
               </label>
 
-              <a href="#">نسيت كلمة المرور؟</a>
+              <a href="#">Forgot password?</a>
             </div>
 
             <button className="submit-button" type="submit">
-              تسجيل الدخول
+              Sign in
             </button>
           </form>
 
           <div className="register-prompt">
-            <span>ما عندك حساب؟</span>
+            <span>Don't have an account?</span>
             <button
                 className="register-link"
                 type="button"
                 onClick={handleRegisterClick}
             >
-              التسجيل
+              Sign up
             </button>
           </div>
         </section>

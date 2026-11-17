@@ -1,0 +1,20 @@
+/* Tailwind without preflight, so global/login styles are not reset */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --color-cream: #f7f3ec;
+  --color-sand: #f2d9ad;
+  --color-sand-soft: #f7ead5;
+  --color-ink: #29251f;
+  --color-muted: #81796f;
+  --color-muted-dark: #71695e;
+  --color-line: #eee7dc;
+  --color-field-line: #e5ded3;
+  --color-field: #fffdfa;
+  --color-brand: #a8661d;
+  --color-brand-dark: #895114;
+  --color-brand-text: #875018;
+  --color-brand-link: #98601f;
+  --color-focus: #b87932;
+}
