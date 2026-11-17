@@ -97,12 +97,12 @@
 }
 
 .login-page .password-wrap input {
-  padding-left: 62px;
+  padding-right: 62px;
 }
 
 .login-page .show-password {
   position: absolute;
-  left: 12px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   padding: 0;
