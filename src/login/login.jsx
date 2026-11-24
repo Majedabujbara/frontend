@@ -1,14 +1,46 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { login, saveSession } from "../auth/auth.js";
 import "./login.css";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  const [email, setEmail] = useState(
+      typeof location.state?.email === "string" ? location.state.email : ""
+  );  const [password, setPassword] = useState("");
+
+  const [remember, setRemember] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!location.state?.accountCreated) return;
+
+    const timer = window.setTimeout(() => {
+      navigate(location.pathname, { replace: true, state: null });
+    }, 3000);
+
+    return () => window.clearTimeout(timer);
+  }, [location.pathname, location.state, navigate]);
+
+  async function handleSubmit(event) {
     event.preventDefault();
-    alert("Login form is ready — it will be connected to the API later.");
+    if (loading) return;
+
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await login(email.trim(), password);
+      saveSession(data, remember);
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
   }
 
   function handleRegisterClick() {
@@ -17,6 +49,26 @@ export default function Login() {
 
   return (
       <main className="login-page">
+        {location.state?.accountCreated && (
+            <div
+                role="status"
+                style={{
+                  position: "fixed",
+                  top: 20,
+                  right: 20,
+                  zIndex: 1000,
+                  padding: "14px 20px",
+                  borderRadius: 10,
+                  background: "#e8f7ec",
+                  border: "1px solid #b8dfc1",
+                  color: "#236b35",
+                  boxShadow: "0 8px 24px #0002",
+                }}
+            >
+              Account created successfully.
+            </div>
+        )}
+
         <section className="login-card">
           <div className="brand">
             <div className="brand-icon">☕</div>
@@ -36,6 +88,8 @@ export default function Login() {
                 type="email"
                 placeholder="name@example.com"
                 autoComplete="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 required
             />
 
@@ -46,6 +100,8 @@ export default function Login() {
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                   required
               />
 
@@ -60,15 +116,41 @@ export default function Login() {
 
             <div className="form-options">
               <label className="remember">
-                <input type="checkbox" />
+                <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(event) => setRemember(event.target.checked)}
+                />
                 Remember me
               </label>
 
               <a href="#">Forgot password?</a>
             </div>
 
-            <button className="submit-button" type="submit">
-              Sign in
+            {error && (
+                <p
+                    role="alert"
+                    style={{
+                      margin: "0 0 16px",
+                      padding: "11px 13px",
+                      borderRadius: 10,
+                      background: "#fff3f1",
+                      border: "1px solid #edc8c2",
+                      color: "#bb4c3b",
+                      fontSize: 13,
+                    }}
+                >
+                  {error}
+                </p>
+            )}
+
+            <button
+                className="submit-button"
+                type="submit"
+                disabled={loading}
+                style={loading ? { opacity: 0.7, cursor: "wait" } : undefined}
+            >
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
