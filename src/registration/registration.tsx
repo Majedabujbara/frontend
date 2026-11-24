@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
@@ -16,7 +16,7 @@ export default function Registration() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
@@ -46,7 +46,9 @@ export default function Registration() {
         setError(
             response.status === 409
                 ? "This email is already registered."
-                : result?.message || result?.detail || "Could not create account. Please try again."
+                : result?.message ||
+                result?.detail ||
+                "Could not create account. Please try again."
         );
         return;
       }
@@ -66,7 +68,7 @@ export default function Registration() {
 
   return (
       <main className="box-border grid min-h-screen place-items-center bg-cream bg-[radial-gradient(circle_at_15%_15%,#f2d9ad_0,transparent_28%)] p-6 font-[Tahoma,Arial,sans-serif] text-ink">
-        <section className="box-border w-full max-w-[440px] rounded-3xl border border-solid border-line bg-white px-[22px] py-7 shadow-[0_24px_70px_#50371918] sm:p-[38px]">
+        <section className="box-border w-full max-w-110 rounded-3xl border border-solid border-line bg-white px-5.5 py-7 shadow-[0_24px_70px_#50371918] sm:p-9.5">
           <div className="flex items-center gap-2.5 text-[19px] font-extrabold text-brand-text">
             <div className="grid size-11 place-items-center rounded-[14px] bg-sand-soft text-[23px]">
               ☕
@@ -74,7 +76,7 @@ export default function Registration() {
             <span>Luqmatna</span>
           </div>
 
-          <div className="mt-[30px] mb-[26px]">
+          <div className="mt-7.5 mb-6.5">
             <span className="text-[13px] font-bold text-brand">Join us</span>
             <h1 className="my-2 text-[30px] font-bold">Create your account</h1>
             <p className="m-0 leading-[1.8] text-muted">
@@ -134,7 +136,7 @@ export default function Registration() {
                   autoComplete="new-password"
                   minLength={8}
                   required
-                  className={`${inputClass} pr-[62px]`}
+                  className={`${inputClass} pr-15.5`}
               />
               <button
                   type="button"
@@ -157,7 +159,7 @@ export default function Registration() {
                   autoComplete="new-password"
                   minLength={8}
                   required
-                  className={`${inputClass} pr-[62px]`}
+                  className={`${inputClass} pr-15.5`}
               />
               <button
                   type="button"
@@ -174,7 +176,7 @@ export default function Registration() {
                 </p>
             )}
 
-            <label className="mt-[17px] mb-[23px] flex items-center gap-[7px] text-[13px] text-muted-dark">
+            <label className="mt-4.25 mb-5.75 flex items-center gap-1.75 text-[13px] text-muted-dark">
               <input type="checkbox" required />
               I agree to the
               <a href="#" className="text-brand-link no-underline hover:underline">
@@ -184,7 +186,7 @@ export default function Registration() {
 
             <button
                 type="submit"
-                className="h-[52px] w-full cursor-pointer rounded-xl border-0 bg-brand font-[inherit] font-bold text-white hover:bg-brand-dark"
+                className="h-13 w-full cursor-pointer rounded-xl border-0 bg-brand font-[inherit] font-bold text-white hover:bg-brand-dark"
             >
               Create account
             </button>

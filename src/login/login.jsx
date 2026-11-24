@@ -7,21 +7,19 @@ export default function Login() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState(location.state?.email || "");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(
+      typeof location.state?.email === "string" ? location.state.email : ""
+  );  const [password, setPassword] = useState("");
+
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState("");
 
   useEffect(() => {
     if (!location.state?.accountCreated) return;
 
-    setToast("Account created successfully.");
-
     const timer = window.setTimeout(() => {
-      setToast("");
       navigate(location.pathname, { replace: true, state: null });
     }, 3000);
 
@@ -51,7 +49,7 @@ export default function Login() {
 
   return (
       <main className="login-page">
-        {toast && (
+        {location.state?.accountCreated && (
             <div
                 role="status"
                 style={{
@@ -67,7 +65,7 @@ export default function Login() {
                   boxShadow: "0 8px 24px #0002",
                 }}
             >
-              {toast}
+              Account created successfully.
             </div>
         )}
 
